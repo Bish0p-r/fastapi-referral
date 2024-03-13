@@ -34,12 +34,13 @@ class AuthServices(AbstractAuthService):
         return access_token
 
     async def registration(self, user_data: dict, session: AsyncSession) -> None:
-
-        # token = user_data.get("token")
-        # if token:
-        #     existed_token = await self.ref_token_repository.get(session, token=token)
-        #     if existed_token is None:
-        #         raise ReferralTokenNotFoundException
+        existed_token = None
+        token = user_data.get("referral_token")
+        if token is not None:
+            existed_token = await self.ref_token_repository.get_one_or_none(session, token_name=token)
+            print(existed_token)
+            if existed_token is None:
+                raise ReferralTokenNotFoundException
 
         hashed_password = get_hash_password(user_data.get("password"))
         try:
@@ -48,7 +49,7 @@ class AuthServices(AbstractAuthService):
                 username=user_data.get("username"),
                 email=user_data.get("email"),
                 hashed_password=hashed_password,
-                # redeemed_token_id=existed_token.id if existed_token else None
+                redeemed_token_id=existed_token.id if existed_token else None
             )
         except IntegrityError:
             raise NonUniqueEmailOrUsernameException
