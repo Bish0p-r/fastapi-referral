@@ -1,9 +1,20 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+from uuid import UUID
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field
+
+from app.schemas.user import UserSchema
 
 
-class ReferralTokenSchema(BaseModel):
-    token: str
-    ttl: timedelta = Field(default=timedelta(days=7))
-    model_config = ConfigDict(ser_json_timedelta="float")
+class ReferralTokenInSchema(BaseModel):
+    token_name: str
+    expires_at: datetime = Field(default=datetime.utcnow() + timedelta(days=7))
+
+
+class ReferralTokenOutSchema(ReferralTokenInSchema):
+    id: UUID
+    owner_id: UUID
+
+
+class ReferralTokenNestedOutSchema(ReferralTokenOutSchema):
+    owner: UserSchema

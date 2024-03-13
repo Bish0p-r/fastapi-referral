@@ -1,10 +1,13 @@
 from typing import Annotated
-from uuid import uuid4
 
 from fastapi import APIRouter, Depends
 from pydantic import EmailStr
 
-from app.schemas.token import ReferralTokenSchema
+from app.schemas.token import ReferralTokenInSchema, ReferralTokenOutSchema, ReferralTokenNestedOutSchema
+from app.dependencies.auth import GetCurrentUser
+from app.dependencies.postgresql import GetSession
+from app.dependencies.token import GetTokenServices
+from app.common.base.schemas import JsonResponseSchema
 
 
 router = APIRouter(
@@ -13,17 +16,30 @@ router = APIRouter(
 )
 
 
-@router.post('')
-async def create_token(token_data: Annotated[ReferralTokenSchema, Depends()]):
-    print(token_data.ttl)
+@router.post('/', status_code=201, responses={201: {"model": ReferralTokenOutSchema}})
+async def create_token(
+        user: GetCurrentUser,
+        token_data: Annotated[ReferralTokenInSchema, Depends()],
+        token_services: GetTokenServices,
+        session: GetSession
+):
+    return await token_services.create_token(user, token_data.model_dump(mode="dict"), session)
 
 
-@router.get('/{user_email}')
-async def get_token_by_email(user_email: EmailStr):
-    pass
+@router.get('/{user_email}', responses={200: {"model": ReferralTokenNestedOutSchema}})
+async def get_token_by_email(
+        user_email: EmailStr,
+        token_services: GetTokenServices,
+        session: GetSession
+):
+    return await token_services.get_token_by_user_email(user_email, session)
 
 
-@router.delete('/{token_id}')
-async def delete_token(token_id: uuid4):
-    pass
+@router.delete('/', responses={200: {"model": JsonResponseSchema}})
+async def delete_token(
+        user: GetCurrentUser,
+        token_services: GetTokenServices,
+        session: GetSession
+):
+    return await token_services.delete_token(user, session)
 

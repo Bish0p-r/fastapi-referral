@@ -16,12 +16,12 @@ if TYPE_CHECKING:
 class ReferralToken(BaseSqlModel):
     __tablename__ = 'referralToken'
 
-    token: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    token_name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
 
-    ttl: Mapped[timedelta] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow + ttl)
+    # ttl: Mapped[timedelta] = mapped_column(nullable=False)
+    # created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 
-    owner_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('user.id'), nullable=False)
-    owner: Mapped["User"] = relationship('User', back_populates='referral_token')
+    owner_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('user.id'), nullable=False, unique=True)
+    owner: Mapped["User"] = relationship('User', back_populates='referral_token', foreign_keys=[owner_id])
 

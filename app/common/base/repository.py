@@ -32,8 +32,8 @@ class BaseRepository(AbstractCRUDRepository):
 
     @classmethod
     async def delete(cls, session: AsyncSession, **filter_by) -> RowMapping | None:
-        user_booked_rooms = delete(cls.model).filter_by(**filter_by).returning(cls.model.__table__.columns)
-        result = await session.execute(user_booked_rooms)
+        query = delete(cls.model).filter_by(**filter_by).returning(cls.model.__table__.columns)
+        result = await session.execute(query)
         await session.commit()
         return result.mappings().one_or_none()
 

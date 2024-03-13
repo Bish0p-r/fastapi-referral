@@ -31,7 +31,6 @@ class AuthServices(AbstractAuthService):
             raise InvalidPasswordException
 
         access_token = await self.jwt_token_services.create_access_token({"sub": str(existed_user.id)})
-        print(access_token)
         return access_token
 
     async def registration(self, user_data: dict, session: AsyncSession) -> None:
