@@ -1,8 +1,10 @@
 from typing import Annotated
 
+from cashews import cache
 from fastapi import APIRouter, Depends
 from pydantic import EmailStr
 
+from app.config import settings
 from app.schemas.token import ReferralTokenInSchema, ReferralTokenOutSchema, ReferralTokenNestedOutSchema
 from app.dependencies.auth import GetCurrentUser
 from app.dependencies.postgresql import GetSession
@@ -17,6 +19,8 @@ router = APIRouter(
 
 
 @router.post('/', status_code=201, responses={201: {"model": ReferralTokenOutSchema}})
+@cache.invalidate(key_template="token_by_user_email:{user.email}")
+@cache.invalidate(key_template="users_by_referrer_id:{user.id}")
 async def create_token(
         user: GetCurrentUser,
         token_data: Annotated[ReferralTokenInSchema, Depends()],
@@ -27,6 +31,7 @@ async def create_token(
 
 
 @router.get('/{user_email}', responses={200: {"model": ReferralTokenNestedOutSchema}})
+@cache(ttl=settings.CACHE_TTL, key='token_by_user_email:{user_email}')
 async def get_token_by_email(
         user_email: EmailStr,
         token_services: GetTokenServices,
@@ -36,6 +41,7 @@ async def get_token_by_email(
 
 
 @router.delete('/', responses={200: {"model": JsonResponseSchema}})
+@cache.invalidate(key_template="token_by_user_email:{user.email}")
 async def delete_token(
         user: GetCurrentUser,
         token_services: GetTokenServices,

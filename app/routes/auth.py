@@ -32,8 +32,3 @@ async def login(
 ) -> JWTTokenSchema:
     access_token = await auth_service.login(form_data.username, form_data.password, session)
     return JWTTokenSchema(access_token=access_token)
-
-
-@router.get('/me')
-async def get_current_user(user: GetCurrentUser) -> UserSchema:
-    return user
