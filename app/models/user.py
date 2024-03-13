@@ -1,5 +1,4 @@
 from typing import TYPE_CHECKING
-from uuid import uuid4
 
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID

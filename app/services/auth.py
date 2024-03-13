@@ -1,3 +1,4 @@
+from sqlalchemy import RowMapping
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
@@ -33,7 +34,7 @@ class AuthServices(AbstractAuthService):
         access_token = await self.jwt_token_services.create_access_token({"sub": str(existed_user.id)})
         return access_token
 
-    async def registration(self, user_data: dict, session: AsyncSession) -> None:
+    async def registration(self, user_data: dict, session: AsyncSession) -> RowMapping:
         existed_token = None
         token = user_data.get("referral_token")
         if token is not None:

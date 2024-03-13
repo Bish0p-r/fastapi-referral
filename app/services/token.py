@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi.responses import JSONResponse
 
+from app.common.abstract.services.token import AbstractTokenServices
 from app.common.abstract.repository.token import AbstractTokenRepository
 from app.common.exceptions import (
     NonUniqueReferralTokenException, ReferralTokenAlreadyExistsException, ReferralTokenDoesNotExistException
@@ -10,7 +11,7 @@ from app.common.exceptions import (
 from app.models.user import User
 
 
-class TokenServices:
+class TokenServices(AbstractTokenServices):
     def __init__(self, token_repository: type[AbstractTokenRepository]) -> None:
         self.token_repository = token_repository
 

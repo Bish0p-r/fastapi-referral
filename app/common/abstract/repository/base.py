@@ -22,7 +22,7 @@ class AbstractReadAllRepository(ABC):
 class AbstractCreateRepository(ABC):
     @classmethod
     @abstractmethod
-    async def create(cls, session: AsyncSession, **data) -> RowMapping | None:
+    async def create(cls, session: AsyncSession, **data) -> RowMapping:
         ...
 
 
