@@ -12,5 +12,4 @@ class AbstractUserRepository(AbstractCRUDRepository, ABC):
 
     @classmethod
     @abstractmethod
-    async def get_by_referrer_id(cls, session: AsyncSession, referrer_id: UUID) -> Sequence[User]:
-        ...
+    async def get_by_referrer_id(cls, session: AsyncSession, referrer_id: UUID) -> Sequence[User]: ...

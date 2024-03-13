@@ -1,6 +1,5 @@
 from fastapi import HTTPException, status
 
-
 NonUniqueEmailOrUsernameException = HTTPException(
     status_code=status.HTTP_409_CONFLICT,
     detail="user with this email or username already exists",

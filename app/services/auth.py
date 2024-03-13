@@ -1,27 +1,30 @@
 from cashews import cache
 from fastapi import BackgroundTasks
 from sqlalchemy import RowMapping
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.common.abstract.services.auth import AbstractAuthService
-from app.common.abstract.repository.user import AbstractUserRepository
-from app.common.utils.auth import verify_password, get_hash_password
-from app.common.exceptions import (NonUniqueEmailOrUsernameException, ReferralTokenNotFoundException,
-                                   InvalidUsernameException, InvalidPasswordException)
-
-from app.common.abstract.services.jwt import AbstractJWTServices
 from app.common.abstract.repository.token import AbstractTokenRepository
+from app.common.abstract.repository.user import AbstractUserRepository
+from app.common.abstract.services.auth import AbstractAuthService
 from app.common.abstract.services.clearbit import AbstractClearbitServices
+from app.common.abstract.services.jwt import AbstractJWTServices
+from app.common.exceptions import (
+    InvalidPasswordException,
+    InvalidUsernameException,
+    NonUniqueEmailOrUsernameException,
+    ReferralTokenNotFoundException,
+)
+from app.common.utils.auth import get_hash_password, verify_password
 
 
 class AuthServices(AbstractAuthService):
     def __init__(
-            self,
-            user_repository: type[AbstractUserRepository],
-            ref_token_repository: type[AbstractTokenRepository],
-            jwt_token_services: AbstractJWTServices,
-            clearbit_services: AbstractClearbitServices
+        self,
+        user_repository: type[AbstractUserRepository],
+        ref_token_repository: type[AbstractTokenRepository],
+        jwt_token_services: AbstractJWTServices,
+        clearbit_services: AbstractClearbitServices,
     ) -> None:
         self.user_repository = user_repository
         self.ref_token_repository = ref_token_repository
@@ -54,14 +57,13 @@ class AuthServices(AbstractAuthService):
                 username=user_data.get("username"),
                 email=user_data.get("email"),
                 hashed_password=hashed_password,
-                redeemed_token_id=existed_token.id if existed_token else None
+                redeemed_token_id=existed_token.id if existed_token else None,
             )
         except IntegrityError:
             raise NonUniqueEmailOrUsernameException
 
         if existed_token is not None:
-            await cache.delete(f'users_by_referrer_id:{existed_token.owner_id}')
+            await cache.delete(f"users_by_referrer_id:{existed_token.owner_id}")
 
         bg_tasks.add_task(self.clearbit_services.update_user_data, user.email, session)
         return user
-

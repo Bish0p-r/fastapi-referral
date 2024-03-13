@@ -13,9 +13,7 @@ class TokenRepository(BaseRepository, AbstractTokenRepository):
 
     @classmethod
     async def get_by_owner_email(cls, session: AsyncSession, owner_email: str) -> model:
-        query = select(
-            cls.model
-        ).options(selectinload(cls.model.owner)).where(User.email == owner_email)
+        query = select(cls.model).options(selectinload(cls.model.owner)).where(User.email == owner_email)
         result = await session.execute(query)
         await session.commit()
         return result.scalars().one_or_none()

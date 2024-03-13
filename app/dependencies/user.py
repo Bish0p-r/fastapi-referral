@@ -9,4 +9,5 @@ from app.services.user import UserServices
 async def get_user_services():
     return UserServices(user_repository=UserRepository)
 
+
 GetUserServices = Annotated[UserServices, Depends(get_user_services)]

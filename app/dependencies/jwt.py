@@ -9,4 +9,5 @@ from app.services.jwt import JWTServices
 async def get_jwt_services() -> JWTServices:
     return JWTServices(user_repository=UserRepository)
 
+
 GetJWTServices = Annotated[JWTServices, Depends(get_jwt_services)]

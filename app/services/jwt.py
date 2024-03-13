@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 
 from jose import ExpiredSignatureError, JWTError, jwt
 
-from app.common.abstract.services.jwt import AbstractJWTServices
 from app.common.abstract.repository.user import AbstractUserRepository
+from app.common.abstract.services.jwt import AbstractJWTServices
 from app.common.exceptions import ExpiredTokenException, InvalidTokenException
 from app.config import settings
 

@@ -2,8 +2,8 @@ from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.common.abstract.services.user import AbstractUserServices
 from app.common.abstract.repository.user import AbstractUserRepository
+from app.common.abstract.services.user import AbstractUserServices
 
 
 class UserServices(AbstractUserServices):

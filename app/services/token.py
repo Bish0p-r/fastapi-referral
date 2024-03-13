@@ -1,12 +1,13 @@
+from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi.responses import JSONResponse
-
-from app.common.abstract.services.token import AbstractTokenServices
 from app.common.abstract.repository.token import AbstractTokenRepository
+from app.common.abstract.services.token import AbstractTokenServices
 from app.common.exceptions import (
-    NonUniqueReferralTokenException, ReferralTokenAlreadyExistsException, ReferralTokenDoesNotExistException
+    NonUniqueReferralTokenException,
+    ReferralTokenAlreadyExistsException,
+    ReferralTokenDoesNotExistException,
 )
 from app.models.user import User
 
