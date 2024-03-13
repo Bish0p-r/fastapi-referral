@@ -4,11 +4,12 @@ from sqlalchemy import RowMapping, delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.common.abstract.repository.base import AbstractCRUDRepository
+from app.common.base.model import BaseSqlModel
 from app.db.postgresql import Base
 
 
 class BaseRepository(AbstractCRUDRepository):
-    model: type[Base]
+    model: type[Base] = BaseSqlModel
 
     @classmethod
     async def get_one_or_none(cls, session: AsyncSession, **filter_by) -> RowMapping | None:

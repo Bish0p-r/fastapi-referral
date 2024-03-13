@@ -6,17 +6,16 @@ from sqlalchemy import String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db.postgresql import Base
+from app.common.base.model import BaseSqlModel
 
 
 if TYPE_CHECKING:
     from app.models.user import User
 
 
-class ReferralToken(Base):
+class ReferralToken(BaseSqlModel):
     __tablename__ = 'referralToken'
 
-    id: Mapped[UUID] = mapped_column(UUID, primary_key=True, default=uuid4)
     token: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
 
     ttl: Mapped[timedelta] = mapped_column(nullable=False)

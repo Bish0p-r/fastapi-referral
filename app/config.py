@@ -8,6 +8,11 @@ class Settings(BaseSettings):
 
     MODE: Literal['DEV', 'TEST', 'PROD'] = 'DEV'
 
+    SECRET_KEY: str
+    ALGORITHM: str
+
+    ACCESS_TOKEN_EXP_MINUTES: int = 15
+
     DB_HOST: str
     DB_PORT: int
     DB_USER: str

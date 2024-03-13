@@ -1,8 +1,9 @@
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, model_validator, Field, EmailStr
 
 
 class RegisterSchema(BaseModel):
-    email: str
+    email: EmailStr = Field(max_length=100)
+    username: str = Field(max_length=50)
     referral_token: str | None = None
     password: str
     confirm_password: str
@@ -18,5 +19,5 @@ class RegisterSchema(BaseModel):
 
 
 class LoginSchema(BaseModel):
-    email: str
+    username: str = Field(max_length=50)
     password: str

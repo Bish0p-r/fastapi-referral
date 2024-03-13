@@ -5,11 +5,6 @@ from pydantic import BaseModel, EmailStr
 
 class UserSchema(BaseModel):
     id: UUID
-    name: str
+    username: str
     email: EmailStr
-    hashed_password: str
-    redeemed_token_id: UUID
-
-
-class EmailSchema(BaseModel):
-    email: EmailStr
+    redeemed_token_id: UUID | None
