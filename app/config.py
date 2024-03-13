@@ -39,11 +39,13 @@ class Settings(BaseSettings):
 
     REDIS_HOST: str
     REDIS_PORT: int
-    CACHE_TTL: int = 180
+    CACHE_TTL: int = 30
 
     @property
     def REDIS_URL(self):
         return f'redis://{self.REDIS_HOST}:{self.REDIS_PORT}'
+
+    CLEARBIT_API_KEY: str
 
 
 settings = Settings()

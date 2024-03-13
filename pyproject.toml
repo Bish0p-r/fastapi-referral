@@ -18,6 +18,18 @@ python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 python-multipart = "^0.0.9"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 cashews = {extras = ["redis"], version = "^7.0.2"}
+httpx = "^0.27.0"
+black = "^24.2.0"
+isort = "^5.13.2"
+
+[tool.black]
+line-length = 120
+extend-exclude = "migrations"
+
+[tool.isort]
+profile = "black"
+line_length = 120
+extend_skip = [".gitignore", ".dockerignore", ".env", ".env.*", "migrations"]
 
 
 [build-system]

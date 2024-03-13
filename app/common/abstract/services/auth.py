@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from fastapi import BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -9,5 +10,5 @@ class AbstractAuthService(ABC):
         ...
 
     @abstractmethod
-    async def registration(self, user_data: dict, session: AsyncSession):
+    async def registration(self, user_data: dict, bg_tasks: BackgroundTasks, session: AsyncSession):
         ...
