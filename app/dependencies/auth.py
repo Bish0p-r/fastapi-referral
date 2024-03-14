@@ -1,14 +1,14 @@
 from typing import Annotated
 
-from fastapi import BackgroundTasks, Depends
+from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 
 from app.common.exceptions import InvalidTokenException
 from app.dependencies.clearbit import get_clearbit_services
+from app.dependencies.token import get_token_services
 from app.dependencies.jwt import GetJWTServices, get_jwt_services
 from app.dependencies.postgresql import GetSession
 from app.models.user import User
-from app.repositories.token import TokenRepository
 from app.repositories.user import UserRepository
 from app.services.auth import AuthServices
 
@@ -16,9 +16,9 @@ from app.services.auth import AuthServices
 async def get_auth_service() -> AuthServices:
     return AuthServices(
         user_repository=UserRepository,
-        ref_token_repository=TokenRepository,
         jwt_token_services=await get_jwt_services(),
         clearbit_services=await get_clearbit_services(),
+        ref_token_services=await get_token_services(),
     )
 
 

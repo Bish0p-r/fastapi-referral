@@ -9,7 +9,8 @@ from app.models.user import User
 
 
 class AbstractUserRepository(AbstractCRUDRepository, ABC):
+    model = User
 
     @classmethod
     @abstractmethod
-    async def get_by_referrer_id(cls, session: AsyncSession, referrer_id: UUID) -> Sequence[User]: ...
+    async def get_by_referrer_id(cls, session: AsyncSession, referrer_id: UUID) -> Sequence[model]: ...

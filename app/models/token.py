@@ -1,6 +1,5 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import TYPE_CHECKING, List
-from uuid import uuid4
 
 from sqlalchemy import DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
@@ -18,7 +17,7 @@ class ReferralToken(BaseSqlModel):
     token_name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 
-    owner_id: Mapped[UUID] = mapped_column(UUID, ForeignKey("user.id"), nullable=False, unique=True)
+    owner_id: Mapped[UUID] = mapped_column(UUID, ForeignKey("user.id", ondelete="CASCADE"), nullable=False, unique=True)
     owner: Mapped["User"] = relationship("User", back_populates="referral_token", foreign_keys=[owner_id])
 
     referrals: Mapped[List["User"]] = relationship(

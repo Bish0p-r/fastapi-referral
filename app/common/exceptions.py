@@ -45,3 +45,8 @@ ReferralTokenDoesNotExistException = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
     detail="referral token does not exist",
 )
+
+ReferralTokenExpiredException = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="referral token expired",
+)

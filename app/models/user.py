@@ -19,7 +19,9 @@ class User(BaseSqlModel):
 
     additional_info: Mapped[JSON] = mapped_column(JSON, nullable=True)
 
-    redeemed_token_id: Mapped[UUID] = mapped_column(UUID, ForeignKey("referralToken.id"), nullable=True)
+    redeemed_token_id: Mapped[UUID] = mapped_column(
+        UUID, ForeignKey("referralToken.id", ondelete="SET NULL"), nullable=True
+    )
     redeemed_token: Mapped["ReferralToken"] = relationship(
         "ReferralToken", back_populates="referrals", foreign_keys=redeemed_token_id
     )

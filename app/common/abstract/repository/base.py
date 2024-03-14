@@ -4,35 +4,48 @@ from typing import Sequence
 from sqlalchemy import RowMapping
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.common.base.model import BaseSqlModel
+from app.db.postgresql import Base
+
 
 class AbstractReadOneRepository(ABC):
+    model = BaseSqlModel
+
     @classmethod
     @abstractmethod
-    async def get_one_or_none(cls, session: AsyncSession, **filter_by) -> RowMapping | None: ...
+    async def get_one_or_none(cls, session: AsyncSession, **filter_by) -> model | None: ...
 
 
 class AbstractReadAllRepository(ABC):
+    model = BaseSqlModel
+
     @classmethod
     @abstractmethod
-    async def get_all(cls, session: AsyncSession, **filter_by) -> Sequence[RowMapping]: ...
+    async def get_all(cls, session: AsyncSession, **filter_by) -> Sequence[model]: ...
 
 
 class AbstractCreateRepository(ABC):
+    model = BaseSqlModel
+
     @classmethod
     @abstractmethod
-    async def create(cls, session: AsyncSession, **data) -> RowMapping: ...
+    async def create(cls, session: AsyncSession, **data) -> model: ...
 
 
 class AbstractUpdateRepository(ABC):
+    model = BaseSqlModel
+
     @classmethod
     @abstractmethod
-    async def update(cls, session: AsyncSession, data: dict, **filter_by) -> RowMapping | None: ...
+    async def update(cls, session: AsyncSession, data: dict, **filter_by) -> model | None: ...
 
 
 class AbstractDeleteRepository(ABC):
+    model = BaseSqlModel
+
     @classmethod
     @abstractmethod
-    async def delete(cls, session: AsyncSession, **filter_by) -> RowMapping | None: ...
+    async def delete(cls, session: AsyncSession, **filter_by) -> model | None: ...
 
 
 class AbstractCRUDRepository(

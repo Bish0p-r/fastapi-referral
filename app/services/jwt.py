@@ -6,6 +6,7 @@ from app.common.abstract.repository.user import AbstractUserRepository
 from app.common.abstract.services.jwt import AbstractJWTServices
 from app.common.exceptions import ExpiredTokenException, InvalidTokenException
 from app.config import settings
+from app.models.user import User
 
 
 class JWTServices(AbstractJWTServices):
@@ -34,12 +35,12 @@ class JWTServices(AbstractJWTServices):
         self,
         data: dict,
         expire_in: timedelta = timedelta(minutes=settings.ACCESS_TOKEN_EXP_MINUTES),
-    ):
+    ) -> str:
         data = data.copy()
         data.update({"type": "access-token"})
         return await self.create_token(data, expire_in=expire_in)
 
-    async def get_user_from_token(self, token: str, session):
+    async def get_user_from_token(self, token: str, session) -> User | None:
         payload = await self.decode_token(token)
         sub = payload.get("sub")
 
