@@ -9,7 +9,6 @@ WORKDIR /referral_app
 COPY . .
 
 RUN pip install --upgrade pip &&  \
-    pip install poetry \
+    pip install poetry
 
-RUN poetry config installer.max-workers 10 &&  \
-    poetry install
+RUN poetry install
