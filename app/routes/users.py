@@ -4,11 +4,17 @@ from cashews import cache
 from fastapi import APIRouter
 
 from app.config import settings
+from app.dependencies.auth import GetCurrentUser
 from app.dependencies.postgresql import GetSession
 from app.dependencies.user import GetUserServices
-from app.schemas.user import UserSchema
+from app.schemas.user import UserSchema, UserAddInfoSchema
 
 router = APIRouter(tags=["Users"], prefix="/users")
+
+
+@router.get("/me", responses={200: {"model": UserAddInfoSchema}})
+async def get_my_profile(user: GetCurrentUser):
+    return user
 
 
 @router.get("/{referrer_user_id}", responses={200: {"model": list[UserSchema]}}, description="Get referred users")

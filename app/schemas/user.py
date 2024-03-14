@@ -8,3 +8,7 @@ class UserSchema(BaseModel):
     username: str
     email: EmailStr
     redeemed_token_id: UUID | None
+
+
+class UserAddInfoSchema(UserSchema):
+    additional_info: dict | None
