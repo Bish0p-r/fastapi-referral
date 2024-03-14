@@ -12,7 +12,7 @@ from app.schemas.user import UserSchema
 router = APIRouter(tags=["Auth"], prefix="/auth")
 
 
-@router.post("/registration", status_code=201, responses={201: {"model": UserSchema}})
+@router.post("/registration", status_code=201, responses={201: {"model": UserSchema}}, response_model=UserSchema)
 async def register(
     user_data: RegisterSchema, auth_service: GetAuthServices, bg_tasks: BackgroundTasks, session: GetSession
 ):

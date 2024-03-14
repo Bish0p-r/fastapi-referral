@@ -32,7 +32,11 @@ async def get_token_by_email(user_email: EmailStr, token_services: GetTokenServi
     return await token_services.get_token_by_user_email(user_email, session)
 
 
-@router.post("/", status_code=201, responses={201: {"model": ReferralTokenOutSchema}})
+@router.post(
+    "/", status_code=201,
+    responses={201: {"model": ReferralTokenOutSchema}},
+    response_model=ReferralTokenOutSchema
+)
 @cache.invalidate(key_template="token_by_user_email:{user.email}")
 @cache.invalidate(key_template="users_by_referrer_id:{user.id}")
 async def create_token(
