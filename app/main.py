@@ -15,4 +15,4 @@ app.include_router(users_router)
 
 @app.on_event("startup")
 async def startup() -> None:
-    cache.setup("redis://0.0.0.0/")
+    cache.setup(settings.REDIS_URL)

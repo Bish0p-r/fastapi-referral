@@ -18,3 +18,7 @@ class ReferralTokenOutSchema(ReferralTokenInSchema):
 
 class ReferralTokenNestedOutSchema(ReferralTokenOutSchema):
     owner: UserSchema
+
+
+class ReferralTokenUpdateSchema(BaseModel):
+    expires_at: datetime = Field(default=datetime.utcnow() + timedelta(days=7))

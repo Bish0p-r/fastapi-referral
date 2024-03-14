@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
@@ -10,11 +11,11 @@ from app.common.exceptions import (
     NonUniqueReferralTokenException,
     ReferralTokenAlreadyExistsException,
     ReferralTokenDoesNotExistException,
-    ReferralTokenNotFoundException,
     ReferralTokenExpiredException,
+    ReferralTokenNotFoundException,
 )
-from app.models.user import User
 from app.models.token import ReferralToken
+from app.models.user import User
 
 
 class TokenServices(AbstractTokenServices):
@@ -47,3 +48,9 @@ class TokenServices(AbstractTokenServices):
         if existed_token.expires_at < datetime.utcnow().astimezone():
             raise ReferralTokenExpiredException
         return existed_token
+
+    async def update_token(self, user: User, token_id: UUID, token_data: dict, session: AsyncSession) -> ReferralToken:
+        updated_token = await self.token_repository.update(session, token_data, owner_id=user.id, id=token_id)
+        if updated_token is None:
+            raise ReferralTokenNotFoundException
+        return updated_token

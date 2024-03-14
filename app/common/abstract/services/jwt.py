@@ -5,7 +5,6 @@ from app.config import settings
 
 
 class AbstractJWTServices(ABC):
-
     @staticmethod
     @abstractmethod
     async def create_token(data: dict, expire_in: timedelta) -> str: ...

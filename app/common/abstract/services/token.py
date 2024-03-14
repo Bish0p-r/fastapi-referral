@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.user import User
 from app.models.token import ReferralToken
+from app.models.user import User
 
 
 class AbstractTokenServices(ABC):

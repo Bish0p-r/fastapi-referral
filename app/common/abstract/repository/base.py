@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Sequence
 
-from sqlalchemy import RowMapping
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.common.base.model import BaseSqlModel
-from app.db.postgresql import Base
 
 
 class AbstractReadOneRepository(ABC):

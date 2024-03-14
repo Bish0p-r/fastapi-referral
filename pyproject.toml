@@ -21,6 +21,7 @@ cashews = {extras = ["redis"], version = "^7.0.2"}
 httpx = "^0.27.0"
 black = "^24.2.0"
 isort = "^5.13.2"
+ruff = "^0.3.2"
 
 [tool.black]
 line-length = 120
@@ -30,6 +31,10 @@ extend-exclude = "migrations"
 profile = "black"
 line_length = 120
 extend_skip = [".gitignore", ".dockerignore", ".env", ".env.*", "migrations"]
+
+[tool.ruff]
+line-length = 120
+exclude = ["migrations"]
 
 
 [build-system]
