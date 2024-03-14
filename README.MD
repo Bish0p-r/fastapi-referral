@@ -13,10 +13,10 @@ API для работы с реферальными кодами.
 
 <h1>Выполненые дополнительные задания</h1>
 
-* Реализовал получение доп. информации о пользователе при регистрации с помощью сервиса clearbit: [**app/services/clearbit.py**]() 
+* Реализовал получение доп. информации о пользователе при регистрации с помощью сервиса clearbit: [**app/services/clearbit.py**](https://github.com/Bish0p-r/fastapi-referral/blob/master/app/services/clearbit.py) 
 \
-Т.к в тз не было сказано, что именно нужно делать с полученными данными, я решил просто хранить их как отдельную строку "additional_info" в формате JSON в таблице User. 
-* Реализовал кэширование get эндпоинтов с помощью Redis + Cashews: [**app/routes/token.py**]()
+Т.к в тз не было сказано, что именно нужно делать с полученными данными, я решил просто хранить их как отдельную строку "additional_info" в формате JSON в таблице User [**app/models/user.py**](https://github.com/Bish0p-r/fastapi-referral/blob/master/app/models/user.py#L20). 
+* Реализовал кэширование get эндпоинтов с помощью Redis + Cashews: [**app/routes/token.py**](https://github.com/Bish0p-r/fastapi-referral/blob/master/app/routes/token.py)
 
 <h1>Установка</h1>
 
