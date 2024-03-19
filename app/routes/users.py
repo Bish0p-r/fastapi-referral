@@ -7,7 +7,7 @@ from app.config import settings
 from app.dependencies.auth import GetCurrentUser
 from app.dependencies.postgresql import GetSession
 from app.dependencies.user import GetUserServices
-from app.schemas.user import UserSchema, UserAddInfoSchema
+from app.schemas.user import UserAddInfoSchema, UserSchema
 
 router = APIRouter(tags=["Users"], prefix="/users")
 

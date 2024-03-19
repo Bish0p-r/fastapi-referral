@@ -44,6 +44,7 @@ class AuthServices(AbstractAuthService):
             existed_token = await self.ref_token_services.verify_token(token, session)
 
         hashed_password = get_hash_password(user_data.get("password"))
+
         try:
             user = await self.user_repository.create(
                 session,

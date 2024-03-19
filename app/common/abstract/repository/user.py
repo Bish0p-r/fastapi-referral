@@ -4,13 +4,24 @@ from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.common.abstract.repository.base import AbstractCRUDRepository
+from app.common.abstract.repository.base import (
+    AbstractCreateRepository,
+    AbstractDeleteRepository,
+    AbstractReadAllRepository,
+    AbstractReadOneRepository,
+    AbstractUpdateRepository,
+)
 from app.models.user import User
 
 
-class AbstractUserRepository(AbstractCRUDRepository, ABC):
-    model = User
-
+class AbstractUserRepository(
+    AbstractReadOneRepository[User],
+    AbstractReadAllRepository[User],
+    AbstractCreateRepository[User],
+    AbstractUpdateRepository[User],
+    AbstractDeleteRepository[User],
+    ABC
+):
     @classmethod
     @abstractmethod
-    async def get_by_referrer_id(cls, session: AsyncSession, referrer_id: UUID) -> Sequence[model]: ...
+    async def get_by_referrer_id(cls, session: AsyncSession, referrer_id: UUID) -> Sequence[User]: ...

@@ -38,7 +38,7 @@ class TokenServices(AbstractTokenServices):
             raise ReferralTokenDoesNotExistException
         return JSONResponse(status_code=200, content={"message": "referral token deleted"})
 
-    async def get_token_by_user_email(self, user_email: str, session: AsyncSession) -> ReferralToken:
+    async def get_token_by_user_email(self, user_email: str, session: AsyncSession) -> ReferralToken | None:
         return await self.token_repository.get_by_owner_email(session, owner_email=user_email)
 
     async def verify_token(self, token_name: str, session: AsyncSession) -> ReferralToken:

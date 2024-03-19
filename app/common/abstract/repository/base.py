@@ -1,56 +1,36 @@
 from abc import ABC, abstractmethod
-from typing import Sequence
+from typing import Generic, Sequence, TypeVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.common.base.model import BaseSqlModel
+T = TypeVar("T")
 
 
-class AbstractReadOneRepository(ABC):
-    model = BaseSqlModel
-
+class AbstractReadOneRepository(ABC, Generic[T]):
     @classmethod
     @abstractmethod
-    async def get_one_or_none(cls, session: AsyncSession, **filter_by) -> model | None: ...
+    async def get_one_or_none(cls, session: AsyncSession, **filter_by) -> T | None: ...
 
 
-class AbstractReadAllRepository(ABC):
-    model = BaseSqlModel
-
+class AbstractReadAllRepository(ABC, Generic[T]):
     @classmethod
     @abstractmethod
-    async def get_all(cls, session: AsyncSession, **filter_by) -> Sequence[model]: ...
+    async def get_all(cls, session: AsyncSession, **filter_by) -> Sequence[T]: ...
 
 
-class AbstractCreateRepository(ABC):
-    model = BaseSqlModel
-
+class AbstractCreateRepository(ABC, Generic[T]):
     @classmethod
     @abstractmethod
-    async def create(cls, session: AsyncSession, **data) -> model: ...
+    async def create(cls, session: AsyncSession, **data) -> T: ...
 
 
-class AbstractUpdateRepository(ABC):
-    model = BaseSqlModel
-
+class AbstractUpdateRepository(ABC, Generic[T]):
     @classmethod
     @abstractmethod
-    async def update(cls, session: AsyncSession, data: dict, **filter_by) -> model | None: ...
+    async def update(cls, session: AsyncSession, data: dict, **filter_by) -> T | None: ...
 
 
-class AbstractDeleteRepository(ABC):
-    model = BaseSqlModel
-
+class AbstractDeleteRepository(ABC, Generic[T]):
     @classmethod
     @abstractmethod
-    async def delete(cls, session: AsyncSession, **filter_by) -> model | None: ...
-
-
-class AbstractCRUDRepository(
-    AbstractReadOneRepository,
-    AbstractReadAllRepository,
-    AbstractCreateRepository,
-    AbstractUpdateRepository,
-    AbstractDeleteRepository,
-    ABC,
-): ...
+    async def delete(cls, session: AsyncSession, **filter_by) -> T | None: ...

@@ -8,11 +8,11 @@ from app.models.token import ReferralToken
 from app.models.user import User
 
 
-class TokenRepository(BaseRepository, AbstractTokenRepository):
+class TokenRepository(BaseRepository[type[ReferralToken]], AbstractTokenRepository):
     model = ReferralToken
 
     @classmethod
-    async def get_by_owner_email(cls, session: AsyncSession, owner_email: str) -> model | None:
+    async def get_by_owner_email(cls, session: AsyncSession, owner_email: str) -> ReferralToken | None:
         query = (
             select(cls.model)
             .join(cls.model.owner)
@@ -20,5 +20,4 @@ class TokenRepository(BaseRepository, AbstractTokenRepository):
             .where(User.email == owner_email)
         )
         result = await session.execute(query)
-        await session.commit()
         return result.scalars().one_or_none()

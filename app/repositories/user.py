@@ -10,7 +10,7 @@ from app.models.token import ReferralToken
 from app.models.user import User
 
 
-class UserRepository(BaseRepository, AbstractUserRepository):
+class UserRepository(BaseRepository[type[User]], AbstractUserRepository):
     model = User
 
     @classmethod

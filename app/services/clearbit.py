@@ -18,6 +18,7 @@ class ClearbitServices(AbstractClearbitServices):
         )
         if response.status_code == 200:
             return response.json()
+        return None
 
     async def update_user_data(self, email: str, session: AsyncSession) -> None:
         data = await self.get_user_data(email)

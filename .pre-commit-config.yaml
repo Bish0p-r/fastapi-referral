@@ -1,0 +1,41 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: check-added-large-files
+    -   id: check-yaml
+    -   id: check-json
+        exclude: launch.json
+    -   id: check-case-conflict
+    -   id: check-merge-conflict
+    -   id: end-of-file-fixer
+
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        exclude: __init__.py, app/migrations
+        args: [ --profile, black, --filter-files ]
+
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.1
+    hooks:
+    -   id: autopep8
+        exclude: app/migrations
+        args: [--max-line-length=120, --in-place]
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+    -   id: flake8
+        exclude: app/migrations
+        args: ["--ignore=E501,F821,E704", "--max-line-length=120"]
+
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.991
+    hooks:
+    -   id: mypy
+        additional_dependencies: ["types-redis"]
+        exclude: 'migrations'
